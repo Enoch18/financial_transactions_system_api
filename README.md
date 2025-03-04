@@ -1,4 +1,4 @@
-# Microservices-Based Finance Management System
+# Microservices-Based Finance Management System API
 
 ## Overview
 
@@ -37,7 +37,7 @@ This project is a microservices-based financial transaction system built using *
 1. **Clone the Repository:**
 
    ```sh
-   git clone https://github.com/your-repo/finance-microservices.git
+   git clone https://github.com/Enoch18/financial_transactions_system_api.git
    cd finance-microservices
    ```
 
