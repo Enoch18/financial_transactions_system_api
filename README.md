@@ -38,7 +38,7 @@ This project is a microservices-based financial transaction system built using *
 
    ```sh
    git clone https://github.com/Enoch18/financial_transactions_system_api.git
-   cd finance-microservices
+   cd financial_transactions_system_api
    ```
 
 2. **Install Dependencies:**
