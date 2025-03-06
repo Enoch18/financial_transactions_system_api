@@ -81,4 +81,27 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Profile updated successfully.', 'user' => $user]);
     }
+
+    // Getting the balance that the user has
+    public function getUserBalance($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return $user->balance;
+    }
+
+    // Checking if the user exists
+    public function getUser($userId){
+        $user = User::find($userId);
+
+        if (!$user) {
+            return 0;
+        }
+
+        return 1;
+    }
 }
