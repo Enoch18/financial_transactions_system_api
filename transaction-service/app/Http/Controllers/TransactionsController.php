@@ -54,7 +54,7 @@ class TransactionsController extends Controller
             $balance = $this->getUserBalance($request->user_id);
 
             // Checking if the transaction is fraudulent
-            $detectFraud = $this->detectFraud($request->amount);
+            $detectFraud = $this->detectFraud($request, $request->amount);
 
             if($request->type == 'transfer' || $request->type == 'withdrawal'){
                 // Checking if the user to whom transfer is being made exists on the system
@@ -98,6 +98,7 @@ class TransactionsController extends Controller
 
             // Publishing message with rabbitmq
             $routingKey = $detectFraud == 'approved' ? 'transaction.approved' : 'transaction.fraudulent';
+            
             $rabbitMQService->publishMessage($routingKey, $request->all());
 
             return response()->json([
@@ -167,12 +168,24 @@ class TransactionsController extends Controller
     /**
      * Detect fraud by calling the fraud detection service
      */
-    private function detectFraud($amount){
+    private function detectFraud($request, $amount){
         try{
             $fraudServiceUrl = config('app.fraud_service_url');
 
+            $bearerToken = null;
+            
+            $authorizationHeader = $request->header('Authorization');
+            if ($authorizationHeader && preg_match('/Bearer\s+(\S+)/', $authorizationHeader, $matches)) {
+                $bearerToken = $matches[1];
+            }
+
             $client = new Client();
             $response = $client->post($fraudServiceUrl . '/api/detect-fraud', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $bearerToken,
+                    'Accept' => 'application/json',
+                ],
+
                 'json' => [
                     'amount' => $amount
                 ]

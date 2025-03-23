@@ -8,4 +8,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/detect-fraud', [FraudDetectionController::class, 'detectFraud']);
+Route::post('/detect-fraud', [FraudDetectionController::class, 'detectFraud'])->middleware('check.auth');

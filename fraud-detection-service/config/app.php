@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'user_service_url' => env('USER_SERVICE_URL', 'http://localhost:8000'),
 
     /*
     |--------------------------------------------------------------------------
